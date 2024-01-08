@@ -6,7 +6,7 @@ Pour utiliser l'action:
 
 ```bash
     - name: Docker Image build and push to GitHub Container Registry
-    uses: NunoMars/docker_image_repo@v0.2
+    uses: NunoMars/docker_image_repo@v1.5
     with:
       file: Dockerfile
       image: 'your-image-name'
