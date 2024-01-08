@@ -14,7 +14,9 @@ inputs:
   context:
     description: 'Contexte de construction (par défaut .)'
     default: '.'
-
+  github-token:
+    description: 'Token GitHub'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -25,11 +27,13 @@ runs:
   - shell: /bin/bash
     run: echo "context=${{ inputs.context }}" >> $GITHUB_ENV
   - shell: /bin/bash
+    run: echo "github-token=${{ inputs.github-token }}" >> $GITHUB_ENV
+  - shell: /bin/bash
     run: echo "::set-output name=imageTag::branch-\${{ github.ref_slug }}"
   - shell: /bin/bash
     run: docker build -t ${{ inputs.image }}:${{ env.imageTag }} -f ${{ inputs.context }}/Dockerfile ${{ inputs.context }}
   - shell: /bin/bash
-    run: docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+    run: docker login ghcr.io -u ${{ github.actor }} -p ${{ inputs.github-token }}
   - name: user-to-lowercase
     uses: profy12/lowercase-action@0.5
     with:
