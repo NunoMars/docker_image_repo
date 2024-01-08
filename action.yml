@@ -34,9 +34,11 @@ runs:
     uses: profy12/lowercase-action@0.5
     with:
       text: ${{ github.repository_owner }}
+    id: user-to-lowercase
   - name: repo-to-lowercase
     uses: profy12/lowercase-action@0.5
     with:
       text: ${{ github.repository_name }}
+    id: repo-to-lowercase
   - shell: /bin/bash
-    run: docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}:${{ env.imageTag }}
+    run: docker push ghcr.io/${{ steps.user-to-lowercase.outputs.text }}/${{ steps.repo-to-lowercase.outputs.text }}:${{ env.imageTag }}
