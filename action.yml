@@ -1,5 +1,6 @@
 name: 'Docker Image build and push to GitHub Container Registry'
 description: 'Builds and pushes Docker image to GitHub Container Registry'
+author: nuno marcelino
 
 branding:
   icon: 'cloud'
@@ -35,13 +36,13 @@ runs:
     shell: bash
 
   - name: Convert owner and repo to lowercase
-    uses: profy12/lowercase-action@0.5
+    uses: profy12/lowercase-action@0.6
     with:
       text: ${{ github.repository_owner }}
     id: user-to-lowercase
 
   - name: Convert repo to lowercase
-    uses: profy12/lowercase-action@0.5
+    uses: profy12/lowercase-action@0.6
     with:
       text: ${{ github.repository_name }}
     id: repo-to-lowercase
