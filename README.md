@@ -8,7 +8,7 @@ Pour utiliser l'action:
     - name: Docker Image build and push to GitHub Container Registry
     uses: NunoMars/docker_image_repo@v0.2
     with:
-      image_name: 'your-image-name'
+      image: 'your-image-name'
       tag: ${{ github.ref_slug }}
       context: '.'
       github-token: ${{ secrets.GITHUB_TOKEN}}
