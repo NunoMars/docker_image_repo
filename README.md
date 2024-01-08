@@ -11,4 +11,5 @@ Pour utiliser l'action:
       image_name: 'your-image-name'
       tag: ${{ github.ref_slug }}
       context: '.'
+      github-token: ${{ secrets.GITHUB_TOKEN}}
 ```
