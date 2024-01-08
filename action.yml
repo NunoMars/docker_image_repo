@@ -6,6 +6,9 @@ branding:
   color: 'blue'
 
 inputs:
+  file:
+    description: 'Nom du fichier Dockerfile'
+    required: true
   image:
     description: 'Nom de l’image Docker'
     required: true
@@ -21,7 +24,7 @@ runs:
   using: 'composite'
   steps:
   - shell: /bin/bash
-    run: docker build -t ${{ inputs.image }}:${{ env.imageTag }} -f ${{ inputs.context }}/Dockerfile ${{ inputs.context }}
+    run: docker build -t ${{ inputs.image }} -f ${{ inputs.file }} ${{ inputs.context }}
   - shell: /bin/bash
     run: docker login ghcr.io -u ${{ github.actor }} -p ${{ inputs.github-token }}
   - name: user-to-lowercase
