@@ -20,22 +20,33 @@ inputs:
   github-token:
     description: 'Token GitHub'
     required: true
+
 runs:
   using: 'composite'
   steps:
-  - shell: /bin/bash
-    run: docker build -t ${{ inputs.image }} -f ${{ inputs.file }} ${{ inputs.context }}
-  - shell: /bin/bash
-    run: docker login ghcr.io -u ${{ github.actor }} -p ${{ inputs.github-token }}
-  - name: user-to-lowercase
+  - name: Build Docker Image
+    run: |
+      docker build -t ${{ inputs.image }} -f ${{ inputs.file }} ${{ inputs.context }}
+    shell: bash
+
+  - name: Docker Login
+    run: |
+      docker login ghcr.io -u ${{ github.actor }} -p ${{ inputs.github-token }}
+    shell: bash
+
+  - name: Convert owner and repo to lowercase
     uses: profy12/lowercase-action@0.5
     with:
       text: ${{ github.repository_owner }}
     id: user-to-lowercase
-  - name: repo-to-lowercase
+
+  - name: Convert repo to lowercase
     uses: profy12/lowercase-action@0.5
     with:
       text: ${{ github.repository_name }}
     id: repo-to-lowercase
-  - shell: /bin/bash
-    run: docker push ghcr.io/${{ steps.user-to-lowercase.outputs.text }}/${{ steps.repo-to-lowercase.outputs.text }}:${{ env.imageTag }}
+
+  - name: Push Docker Image
+    run: |
+      docker push ghcr.io/${{ steps.user-to-lowercase.outputs.text }}/${{ steps.repo-to-lowercase.outputs.text }}:${{ env.imageTag }}
+    shell: bash
