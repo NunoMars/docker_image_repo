@@ -21,16 +21,6 @@ runs:
   using: 'composite'
   steps:
   - shell: /bin/bash
-    run: echo "image=${{ inputs.image }}" >> $GITHUB_ENV
-  - shell: /bin/bash
-    run: echo "tag=${{ inputs.tag }}" >> $GITHUB_ENV
-  - shell: /bin/bash
-    run: echo "context=${{ inputs.context }}" >> $GITHUB_ENV
-  - shell: /bin/bash
-    run: echo "github-token=${{ inputs.github-token }}" >> $GITHUB_ENV
-  - shell: /bin/bash
-    run: echo "::set-output name=imageTag::branch-\${{ github.ref_slug }}"
-  - shell: /bin/bash
     run: docker build -t ${{ inputs.image }}:${{ env.imageTag }} -f ${{ inputs.context }}/Dockerfile ${{ inputs.context }}
   - shell: /bin/bash
     run: docker login ghcr.io -u ${{ github.actor }} -p ${{ inputs.github-token }}
