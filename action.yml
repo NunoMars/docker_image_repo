@@ -50,5 +50,5 @@ runs:
 
   - name: Push Docker Image
     run: |
-      docker push ghcr.io/${{ steps.repo-to-lowercase.outputs.text }}/${{ inputs.image }}:${{ inputs.tag }}
+      docker push ghcr.io/${{ steps.repo-to-lowercase.outputs.text }}/${{ inputs.image }}
     shell: bash
