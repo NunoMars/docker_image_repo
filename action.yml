@@ -38,13 +38,13 @@ runs:
   - name: Convert owner and repo to lowercase
     uses: profy12/lowercase-action@0.6
     with:
-      text: ${{ github.repository_owner }}
+      text: ${{ github.actor }}
     id: user-to-lowercase
 
   - name: Convert repo to lowercase
     uses: profy12/lowercase-action@0.6
     with:
-      text: ${{ github.repository_name }}
+      text: ${{ github.repository }}
     id: repo-to-lowercase
 
   - name: Push Docker Image
