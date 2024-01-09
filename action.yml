@@ -5,50 +5,37 @@ author: nuno marcelino
 branding:
   icon: 'cloud'
   color: 'blue'
-
 inputs:
-  file:
-    description: 'Nom du fichier Dockerfile'
+  image-name:
+    description: 'name of the docker image'
     required: true
-  image:
-    description: 'Nom de l’image Docker'
-    required: true
-  tag:
-    description: 'Numéro de tag (par défaut nom de la branche)'
-    default: ${{ github.ref }}
-  context:
-    description: 'Contexte de construction (par défaut .)'
-    default: '.'
-  github-token:
-    description: 'Token GitHub'
-    required: true
-
+  registry:
+    description: 'where to push image'
+    default: ghcr.io
+    required: false
+  username:
+    description: 'username to login to registry'
+  password:
+    description: 'token to login'
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
-  - name: Build Docker Image
-    run: |
-      docker build -t ${{ inputs.image }} -f ${{ inputs.file }} ${{ inputs.context }}
+  - name: login to registry
+    run: "docker login ${{ inputs.registry }} -u ${{ inputs.username }} -p ${{ inputs.password }} \n"
     shell: bash
 
-  - name: Docker Login
-    run: |
-      docker login ghcr.io -u ${{ github.actor }} -p ${{ inputs.github-token }}
-    shell: bash
-
-  - name: Convert owner and repo to lowercase
+  - name: Test just output the message
     uses: profy12/lowercase-action@0.6
-    with:
-      text: ${{ github.actor }}
-    id: user-to-lowercase
-
-  - name: Convert repo to lowercase
-    uses: profy12/lowercase-action@0.6
+    id: lowered
     with:
       text: ${{ github.repository }}
-    id: repo-to-lowercase
 
-  - name: Push Docker Image
+  - name: build image
     run: |
-      docker push ghcr.io/${{ steps.repo-to-lowercase.outputs.text }}/${{ inputs.image }}
+      docker build -t ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }} .
+    shell: bash
+
+  - name: push image
+    run: |
+      docker push ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}
     shell: bash
