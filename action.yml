@@ -15,6 +15,7 @@ inputs:
     required: true
   tag:
     description: 'Numéro de tag (par défaut nom de la branche)'
+    default: ${{ github.ref }}
   context:
     description: 'Contexte de construction (par défaut .)'
     default: '.'
@@ -49,5 +50,5 @@ runs:
 
   - name: Push Docker Image
     run: |
-      docker push ghcr.io/${{ steps.repo-to-lowercase.outputs.text }}/${{ steps.user-to-lowercase.outputs.text }}:${{ env.imageTag }}
+      docker push ghcr.io/${{ steps.repo-to-lowercase.outputs.text }}/${{ inputs.image }}:${{ inputs.tag }}
     shell: bash
