@@ -1,5 +1,5 @@
 name: 'Docker Image build and push to GitHub Container Registry'
-description: 'Builds and pushes Docker image to GitHub Container Registry'
+description: 'Builds and pushes Docker image to GitHub Container Registry (ghcr.io)'
 author: nuno marcelino
 
 branding:
