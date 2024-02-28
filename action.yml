@@ -17,6 +17,8 @@ inputs:
     description: 'username to login to registry'
   password:
     description: 'token to login'
+  image-tag:
+    description: 'tag for the image'
 runs:
   using: "composite"
   steps:
@@ -32,10 +34,10 @@ runs:
 
   - name: build image
     run: |
-      docker build -t ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }} .
+      docker build -t ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}:{{ inputs.image-tag}} .
     shell: bash
 
   - name: push image
     run: |
-      docker push ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}
+      docker push ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}:{{ inputs.image-tag }}
     shell: bash
