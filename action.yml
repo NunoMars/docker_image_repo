@@ -18,6 +18,10 @@ inputs:
     description: 'Username to login to registry'
   password:
     description: 'Token to login'
+  tag:
+    description: 'Tag to use for the image'
+    default: 'latest'
+  
 
 runs:
   using: "composite"
@@ -41,20 +45,10 @@ runs:
 
   - name: Build image (multi-architecture)
     run: |
-      docker buildx build --platform linux/amd64,linux/arm64 -t ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}:latest . 
-    shell: bash
-
-  - name: Verify built images
-    run: |
-      docker images
-    shell: bash
-
-  - name: Tag image explicitly
-    run: |
-      docker tag ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}:latest ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}:latest
+      docker buildx build --platform linux/amd64,linux/arm64 -t ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}:${{ inputs.tag }}. 
     shell: bash
 
   - name: Push image
     run: |
-      docker push ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}:latest
+      docker push ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}:${{ inputs.tag }}
     shell: bash
