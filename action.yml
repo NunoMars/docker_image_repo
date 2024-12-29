@@ -45,7 +45,7 @@ runs:
 
   - name: Build image (multi-architecture)
     run: |
-      docker buildx build --platform linux/amd64,linux/arm64 -t ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}:${{ inputs.tag }}. 
+      docker buildx build --platform linux/amd64,linux/arm64 -t ${{ inputs.registry }}/${{ steps.lowered.outputs.text }}/${{ inputs.image-name }}:${{ inputs.tag }} .
     shell: bash
 
   - name: Push image
