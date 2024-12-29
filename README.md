@@ -6,11 +6,10 @@ Pour utiliser l'action:
 
 ```bash
     - name: Docker Image build and push to GitHub Container Registry
-    uses: NunoMars/docker_image_repo@v1.5
+    uses: NunoMars/docker_image_repo@V2.6
     with:
-      file: Dockerfile
-      image: 'your-image-name'
-      tag: ${{ github.ref_slug }}
+      username: 'your username'
+      image-name: 'your-image-name'
       context: '.'
-      github-token: ${{ secrets.GITHUB_TOKEN}}
+      password: ${{ secrets.GITHUB_TOKEN}}
 ```
